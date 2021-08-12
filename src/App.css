@@ -41,5 +41,35 @@ header {
   display: flex;
 }
 
-.content-area {
+.header-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.search {
+  background-color: #e4e1e1;
+  border-bottom: 1px solid #eee;
+  padding: 5px 15px;
+}
+
+.search-input {
+  background-color: #fff;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+}
+
+.search-input input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  margin-left: 10px;
 }
