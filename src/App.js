@@ -1,5 +1,8 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
+
 import ChatListItem from "./components/chatList/chatListItem";
+import ChatInfo from "./components/chatIntro/chatIntro"
+
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -8,7 +11,7 @@ import './App.css'
 
 export default () => {
 
-  const [chatList, setChatList] = useState([{}, {}, {}]) 
+  const [chatList, setChatList] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}])
 
   return (
     <div className="app-window">
@@ -33,14 +36,14 @@ export default () => {
             <input type="search" placeholder="Procurar ou começar uma nova conversa." />
           </div>
         </div>
-        <div className="chatList">
-            {chatList.map((item, key)=> (
-              <ChatListItem key={key}/>
-            ))}
+        <div className="chat-list">
+          {chatList.map((item, key) => (
+            <ChatListItem key={key} />
+          ))}
         </div>
       </div>
       <div className="content-area">
-
+        <ChatInfo />
       </div>
     </div>
   )

@@ -73,3 +73,18 @@ header {
   background-color: transparent;
   margin-left: 10px;
 }
+
+.chat-list {
+  flex: 1;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+.chat-list::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.chat-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}
