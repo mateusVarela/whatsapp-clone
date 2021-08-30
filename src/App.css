@@ -88,3 +88,7 @@ header {
 .chat-list::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.content-area {
+  flex: 1;
+}
