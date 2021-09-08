@@ -1,9 +1,9 @@
 import React from 'react'
 import './chatListItem.css'
 
-export default () => {
+export default ({ onClick, active }) => {
     return (
-        <div className="chat-list-item">
+        <div onClick={onClick} className={`chat-list-item ${active ? "active" : ""}`}>
             <img className="chat-list-item-avatar" src="https://www.w3schools.com/howto/img_avatar2.png" ></img>
             <div className="chat-list-item-lines">
                 <div className="chat-list-item-line">
