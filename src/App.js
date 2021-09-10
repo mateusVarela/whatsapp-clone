@@ -13,11 +13,11 @@ import './App.css'
 export default () => {
 
   const [chatList, setChatList] = useState([
-    { chatId: 1, tittle: "Mateus", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 2, tittle: "Max", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 3, tittle: "João", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 4, tittle: "Pai", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 4, tittle: "Pai", image: "https://www.w3schools.com/howto/img_avatar2.png" }
+    { chatId: 1, title: "Mateus", image: "https://www.w3schools.com/howto/img_avatar2.png" },
+    { chatId: 2, title: "Max", image: "https://www.w3schools.com/howto/img_avatar2.png" },
+    { chatId: 3, title: "João", image: "https://www.w3schools.com/howto/img_avatar2.png" },
+    { chatId: 4, title: "Pai", image: "https://www.w3schools.com/howto/img_avatar2.png" },
+    { chatId: 5, title: "Lucas", image: "https://www.w3schools.com/howto/img_avatar2.png" }
   ])
 
   const [activeChat, setActiveChat] = useState({})
@@ -47,7 +47,10 @@ export default () => {
         </div>
         <div className="chat-list">
           {chatList.map((item, key) => (
-            <ChatListItem key={key} active={activeChat.chatId === chatList[key].chatId} onClick={() => setActiveChat(chatList[key])} />
+            <ChatListItem key={key}
+              data={item}
+              active={activeChat.chatId === chatList[key].chatId}
+              onClick={() => setActiveChat(chatList[key])} />
           ))}
         </div>
       </div>
