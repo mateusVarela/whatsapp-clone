@@ -12,7 +12,9 @@ import MicIcon from '@material-ui/icons/Mic';
 
 export default () => {
 
-  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+  const recognition = SpeechRecognition ? new SpeechRecognition() : false
 
   /**
    * Estado do menu de emoji.
@@ -23,6 +25,9 @@ export default () => {
    * Estado do input de envio de mensagem.
    */
   const [inputText, setInputText] = useState('')
+
+
+  const [listening, setListening] = useState(false)
   
   /**
    * Função usada para mostrar emoji selecionado.
@@ -45,7 +50,25 @@ export default () => {
     setEmojiOpen(false)
   }
 
-  const handleMicClick = () => {}
+  const handleMicClick = () => {
+
+    if (recognition) {
+      recognition.onstart = () => {
+        setListening(true)
+      }
+
+      recognition.onend = () => {
+        setListening(false)
+      }
+
+      recognition.onresult = function (e) {
+        console.log(e)
+        setInputText(e.results[0][0].transcript)
+      }
+
+      recognition.start()
+    }
+   }
 
   const handleSendClick = () => {}
 
@@ -106,8 +129,8 @@ export default () => {
         </div>
         <div className="right-icons">
           {!inputText && 
-            <div onChange={handleMicClick} className="chat-window-button">
-              <MicIcon style={{color: "#919191"}}/>
+            <div onClick={handleMicClick} className="chat-window-button">
+              <MicIcon style={{color: listening ? "#126ECE" : "#919191"}}/>
             </div>
           }
 
