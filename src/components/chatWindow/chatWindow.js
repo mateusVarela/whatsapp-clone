@@ -1,6 +1,7 @@
 import {React, useState} from "react"
 import EmojiPicker from "emoji-picker-react";
 import "./chatWindow.css"
+import MessageItem from "../message/message";
  
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
@@ -10,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
 
-export default () => {
+export default ({user}) => {
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
@@ -28,6 +29,9 @@ export default () => {
 
 
   const [listening, setListening] = useState(false)
+
+
+  const [lists, setLits] = useState([{author: 123, body: "ola mundo"}, {author: 1234, body: "Como estás?"}, {author: 124, body: "Show!!"}])
   
   /**
    * Função usada para mostrar emoji selecionado.
@@ -91,7 +95,15 @@ export default () => {
         </div>
       </div>
 
-      <div className="chat-window-body"></div>
+      <div className="chat-window-body">
+        {lists.map((list, key) => (
+          <MessageItem 
+            key={key}
+            data={list}
+            user={user}
+          />
+        ))}
+      </div>
 
       <div className="chat-window-emoji" 
         style={{height: emojiOpen? "200px" : "0px"}}>
