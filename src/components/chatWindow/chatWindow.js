@@ -1,4 +1,4 @@
-import {React, useState} from "react"
+import {React, useState, useEffect, useRef} from "react"
 import EmojiPicker from "emoji-picker-react";
 import "./chatWindow.css"
 import MessageItem from "../message/message";
@@ -12,6 +12,8 @@ import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
 
 export default ({user}) => {
+
+  const body = useRef()
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
@@ -31,7 +33,32 @@ export default ({user}) => {
   const [listening, setListening] = useState(false)
 
 
-  const [lists, setLits] = useState([{author: 123, body: "ola mundo"}, {author: 1234, body: "Como estás?"}, {author: 124, body: "Show!!"}])
+  const [lists, setLits] = useState([{author: 123, body: "ola mundo"}, {author: 1234, body: "Como estás?"}, 
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+  {author: 124, body: "Show!!"},
+])
+
+  useEffect(() => {
+    if(body.current.scrollHeight > body.current.offsetHeight) {
+      body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
+    }
+  }, [lists])
   
   /**
    * Função usada para mostrar emoji selecionado.
@@ -95,7 +122,7 @@ export default ({user}) => {
         </div>
       </div>
 
-      <div className="chat-window-body">
+      <div ref={body} className="chat-window-body">
         {lists.map((list, key) => (
           <MessageItem 
             key={key}

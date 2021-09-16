@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react"
 import ChatListItem from "./components/chatList/chatListItem";
 import ChatInfo from "./components/chatIntro/chatIntro"
 import ChatWindow from "./components/chatWindow/chatWindow"
+import NewChat from "./components/newChat/newChat";
+import Login from "./components/login/login";
 
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -21,22 +23,45 @@ export default () => {
   ])
 
   const [activeChat, setActiveChat] = useState({})
-  const [user, setUser] = useState({
-    id: 1234,
-    avatar: "https://www.w3schools.com/howto/img_avatar2.png",
-    name: "Mateus Varela"
-  })
+
+  /**
+   * Estado responsável por mostrar area de nova conversa na tela.
+   */
+  const [showNewContactChat, setShowNewContactChat] = useState(false)
+
+  const [user, setUser] = useState(null)
+
+  const handleLoginData = async (userInformation) => {
+    const newUser = {
+      id: userInformation.uid,
+      name: userInformation.displayName,
+      avatar: userInformation.photoURL
+    }
+    setUser(newUser)
+  }
+
+  if (!user) return (<Login onReceive={handleLoginData}/>)
+
+  const handleOpenNewChat = () => {
+    setShowNewContactChat(true)
+  }
 
   return (
     <div className="app-window">
       <div className="sidebar">
+        <NewChat 
+          chatList={chatList}
+          user={user}
+          show={showNewContactChat}
+          setShow={setShowNewContactChat}
+        />
         <header>
           <img className="header-avatar" src={user.avatar} alt="" />
           <div className="header-buttons">
             <div className="header-button">
               <DonutLargeIcon style={{ color: '#919191' }} />
             </div>
-            <div className="header-button">
+            <div onClick={handleOpenNewChat} className="header-button">
               <ChatIcon style={{ color: '#919191' }} />
             </div>
             <div className="header-button">
