@@ -5,6 +5,7 @@ import ChatInfo from "./components/chatIntro/chatIntro"
 import ChatWindow from "./components/chatWindow/chatWindow"
 import NewChat from "./components/newChat/newChat";
 import Login from "./components/login/login";
+import api from "./api"
 
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -14,13 +15,7 @@ import './App.css'
 
 export default () => {
 
-  const [chatList, setChatList] = useState([
-    { chatId: 1, title: "Mateus", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 2, title: "Max", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 3, title: "João", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 4, title: "Pai", image: "https://www.w3schools.com/howto/img_avatar2.png" },
-    { chatId: 5, title: "Lucas", image: "https://www.w3schools.com/howto/img_avatar2.png" }
-  ])
+  const [chatList, setChatList] = useState([])
 
   const [activeChat, setActiveChat] = useState({})
 
@@ -29,7 +24,11 @@ export default () => {
    */
   const [showNewContactChat, setShowNewContactChat] = useState(false)
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({
+    id: "pchhEiZcjxTmCVYbkTDIIrG8BsG3",
+    name: "Mateus Varela",
+    avatar: "https://graph.facebook.com/1743806615810318/picture"
+  })
 
   const handleLoginData = async (userInformation) => {
     const newUser = {
@@ -37,10 +36,11 @@ export default () => {
       name: userInformation.displayName,
       avatar: userInformation.photoURL
     }
+    await api.addUser(newUser)
     setUser(newUser)
   }
 
-  if (!user) return (<Login onReceive={handleLoginData}/>)
+  if (!user) return (<Login onReceive={handleLoginData} />)
 
   const handleOpenNewChat = () => {
     setShowNewContactChat(true)
@@ -49,7 +49,7 @@ export default () => {
   return (
     <div className="app-window">
       <div className="sidebar">
-        <NewChat 
+        <NewChat
           chatList={chatList}
           user={user}
           show={showNewContactChat}

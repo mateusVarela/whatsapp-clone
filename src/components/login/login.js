@@ -2,16 +2,16 @@ import React from "react";
 import api from "../../api";
 import "./login.css"
 
-export default ({onReceive}) => {
+export default ({ onReceive }) => {
     const handleFacebookLogin = async () => {
         const resultOfUserLogin = await api.facebookPopUp()
-        
-        if(!resultOfUserLogin) return alert("Houve algum erro...")
+
+        if (!resultOfUserLogin) return alert("Houve algum erro...")
 
         onReceive(resultOfUserLogin.user)
     }
 
-    return(
+    return (
         <div className="login">
             <button onClick={handleFacebookLogin}>Logar com Facebook</button>
         </div>
