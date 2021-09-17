@@ -13,6 +13,7 @@ export default ({ chatList, user, show, setShow }) => {
         const getList = async () => {
             if (user) {
                 const results = await api.getContatList(user.id)
+                console.log(results)
                 setLists(results)
             }
         }

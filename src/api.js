@@ -28,23 +28,19 @@ export default {
 
     getContatList: async (userId) => {
         let lists = []
-        const results = await db.collection("users").get()
-
-        const data = results.data()
-
-        const listOfUsers = results.array.forEach(element => {
-
+        db.collection("users").get().then((querySnapshot) => {
+            querySnapshot.forEach((result) => {
+            const data = result.data()
+                if (result.id !== userId) {
+                    lists.push({
+                        id: result.id,
+                        name: data.name,
+                        avatar: data.avatar
+                    })
+                }
+            });
         });
-        const infoOfAllUsers = listOfUsers.map(user => {
-            const userInfo = {
-                id: user.id,
-                name: data.name,
-                avatar: data.avatar
-            }
-
-            return userInfo
-        })
-
-        return infoOfAllUsers
+        
+        return lists
     }
 }
