@@ -1,8 +1,8 @@
-import {React, useState, useEffect, useRef} from "react"
+import { React, useState, useEffect, useRef } from "react"
 import EmojiPicker from "emoji-picker-react";
 import "./chatWindow.css"
 import MessageItem from "../message/message";
- 
+
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -14,7 +14,7 @@ import MicIcon from '@material-ui/icons/Mic';
 import onChatContent from "../../api"
 import api from "../../api";
 
-export default ({user, data}) => {
+export default ({ user, data }) => {
 
   const body = useRef()
 
@@ -41,7 +41,7 @@ export default ({user, data}) => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-    if(body.current.scrollHeight > body.current.offsetHeight) {
+    if (body.current.scrollHeight > body.current.offsetHeight) {
       body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
     }
   }, [lists])
@@ -50,12 +50,12 @@ export default ({user, data}) => {
    * Monitora envio de mensagens, caso tenha um novo envio sera mostrado aqui.
    */
   useEffect(() => {
-    
+
     setLits([])
     const onSubmit = api.onChatContent(data.chatId, setLits, setUsers)
     return onSubmit
   }, [data.chatId])
-  
+
   /**
    * Função usada para mostrar emoji selecionado.
    */
@@ -92,18 +92,20 @@ export default ({user, data}) => {
       }
 
       recognition.onresult = function (e) {
-        console.log(e)
         setInputText(e.results[0][0].transcript)
       }
 
       recognition.start()
     }
-   }
+  }
 
+  /**
+   * Evento de clique para enviar mensagem.
+   */
   const handleSendClick = () => {
     if (!inputText) return
 
-    api.sendMessage(data,  user.id, 'text', inputText, users)
+    api.sendMessage(data, user.id, 'text', inputText, users)
     setInputText("")
     setEmojiOpen(false)
   }
@@ -112,7 +114,7 @@ export default ({user, data}) => {
    * Envia a mensagem com a tecla enter. 
    */
   const handleInputKeyUp = (e) => {
-    if(e.keycode == 13) {
+    if (e.keyCode == 13) {
       handleSendClick()
     }
   }
@@ -126,19 +128,19 @@ export default ({user, data}) => {
         </div>
 
         <div className="chat-window-buttons">
-            <div className="chat-window-button">
-              <SearchIcon style={{color: "#919191"}}/>
-            </div>
-            
-            <div className="chat-window-button">
-              <MoreVertIcon style={{color: "#919191"}}/>
-            </div>
+          <div className="chat-window-button">
+            <SearchIcon style={{ color: "#919191" }} />
+          </div>
+
+          <div className="chat-window-button">
+            <MoreVertIcon style={{ color: "#919191" }} />
+          </div>
         </div>
       </div>
 
       <div ref={body} className="chat-window-body">
         {lists.map((list, key) => (
-          <MessageItem 
+          <MessageItem
             key={key}
             data={list}
             user={user}
@@ -146,8 +148,8 @@ export default ({user, data}) => {
         ))}
       </div>
 
-      <div className="chat-window-emoji" 
-        style={{height: emojiOpen? "200px" : "0px"}}>
+      <div className="chat-window-emoji"
+        style={{ height: emojiOpen ? "200px" : "0px" }}>
         <EmojiPicker
           onEmojiClick={handleEmojiClick}
           disableSearchBar
@@ -157,42 +159,42 @@ export default ({user, data}) => {
 
       <div className="chat-window-footer">
         <div className="left-icons">
-          <div style={{width: emojiOpen ? "40px" : "0px"}} className="chat-window-button">
-            <CloseIcon 
-              style={{color: "#919191"}}
+          <div style={{ width: emojiOpen ? "40px" : "0px" }} className="chat-window-button">
+            <CloseIcon
+              style={{ color: "#919191" }}
               onClick={handleCloseEmoji}
-              />
-          </div>
-          <div className="chat-window-button">
-            <SentimentVerySatisfiedIcon 
-            style={{color:  emojiOpen ? "#009688" : "#919191"}}
-            onClick={handleOpenEmoji}
             />
           </div>
           <div className="chat-window-button">
-              <AttachFileIcon style={{color: "#919191"}}/>
-            </div>
+            <SentimentVerySatisfiedIcon
+              style={{ color: emojiOpen ? "#009688" : "#919191" }}
+              onClick={handleOpenEmoji}
+            />
+          </div>
+          <div className="chat-window-button">
+            <AttachFileIcon style={{ color: "#919191" }} />
+          </div>
         </div>
         <div className="chat-window-input">
-            <input className="chat-window-input-message"
-              placeholder="Digite uma mensagem"
-              value={inputText}
-              onChange={e=> setInputText(e.target.value)}
-              onKeyUp={handleInputKeyUp}
-            />
+          <input className="chat-window-input-message"
+            placeholder="Digite uma mensagem"
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+            onKeyUp={handleInputKeyUp}
+          />
         </div>
         <div className="right-icons">
-          {!inputText && 
+          {!inputText &&
             <div onClick={handleMicClick} className="chat-window-button">
-              <MicIcon style={{color: listening ? "#126ECE" : "#919191"}}/>
+              <MicIcon style={{ color: listening ? "#126ECE" : "#919191" }} />
             </div>
           }
 
-        {inputText &&         
-          <div onClick={handleSendClick} className="chat-window-button">
-            <SendIcon style={{color: "#919191"}}/>
-          </div>
-        }
+          {inputText &&
+            <div onClick={handleSendClick} className="chat-window-button">
+              <SendIcon style={{ color: "#919191" }} />
+            </div>
+          }
         </div>
       </div>
     </div>)

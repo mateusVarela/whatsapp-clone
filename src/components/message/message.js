@@ -1,31 +1,30 @@
-import {React, useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import "./message.css"
 
-export default ({data, user}) => {
+export default ({ data, user }) => {
 
     /**
      * Estado da data da última mensagem.
      */
-     const [time, setTime] = useState("")
+    const [time, setTime] = useState("")
 
-     /**
-      * Normaliza data da última mensagem para apresentar na tela.
-      */
-     useEffect(() => {
-         if (data.date) {
-             const date = new Date(data.date.seconds * 1000)
-             const hours = date.getHours()
- 
-             const minutes = date.getMinutes()
-             const hoursNormalized = hours < 10 ? `0${hours}` : hours
-             const minutesNormalized = minutes < 10 ? `0${minutes}` : minutes
-             console.log(`${hoursNormalized}:${minutesNormalized}`);
-             setTime(`${hoursNormalized}:${minutesNormalized}`)
-         }
-     }, [data])
-    return(
+    /**
+     * Normaliza data da última mensagem para apresentar na tela.
+     */
+    useEffect(() => {
+        if (data.date) {
+            const date = new Date(data.date.seconds * 1000)
+            const hours = date.getHours()
+
+            const minutes = date.getMinutes()
+            const hoursNormalized = hours < 10 ? `0${hours}` : hours
+            const minutesNormalized = minutes < 10 ? `0${minutes}` : minutes
+            setTime(`${hoursNormalized}:${minutesNormalized}`)
+        }
+    }, [data])
+    return (
         <div className="message-line"
-            style={{justifyContent: user.id === data.author ? "flex-end" : "flex-start" }}
+            style={{ justifyContent: user.id === data.author ? "flex-end" : "flex-start" }}
         >
             <div className="message-item"
                 style={{

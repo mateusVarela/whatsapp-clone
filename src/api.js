@@ -38,7 +38,7 @@ export default {
 
         db.collection("users").get().then((querySnapshot) => {
             querySnapshot.forEach((result) => {
-            const data = result.data()
+                const data = result.data()
                 if (result.id !== userId) {
                     lists.push({
                         id: result.id,
@@ -48,7 +48,7 @@ export default {
                 }
             });
         });
-        
+
         return lists
     },
 
@@ -69,7 +69,7 @@ export default {
          * Atualiza informações do chat sobre um usuário pertencente ao chat.
          */
         db.collection("users").doc(user.id).update({
-            
+
             /**
              * Para adicionar um campo que já tem valor e não é necessário substituir todos os campos.
              */
@@ -100,7 +100,7 @@ export default {
     onChatList: (userId, setChatList) => {
         return db.collection("users").doc(userId).onSnapshot((doc) => {
             if (!doc.exists) return
-            
+
             const data = doc.data()
             if (data.chats) {
                 setChatList(data.chats)
@@ -108,15 +108,21 @@ export default {
         })
     },
 
+    /**
+     * Monitora collection de chat para atualizar mensagens.
+     */
     onChatContent: (chatId, setList, setUsers) => {
         return db.collection("chats").doc(chatId).onSnapshot((doc) => {
-            if(!doc.exists) return
+            if (!doc.exists) return
             const data = doc.data()
             setList(data.messages)
             setUsers(data.users)
         })
     },
 
+    /**
+     * Envia nova mensagem. 
+     */
     sendMessage: async (chatInfo, senderUserId, type, body, users) => {
         const date = new Date()
 
@@ -136,12 +142,12 @@ export default {
             const userInfo = await db.collection("users").doc(user).get()
             const userData = userInfo.data()
 
-            if(!userData.chats) return
+            if (!userData.chats) return
 
             const chats = [...userData.chats]
 
             chats.map(chat => {
-                if(chat.chatId == chatInfo.chatId) {
+                if (chat.chatId == chatInfo.chatId) {
                     chat.lastMessageDate = date
                     chat.lastMessage = body
                 }

@@ -1,8 +1,8 @@
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from 'react'
 import './chatListItem.css'
 
 export default ({ onClick, active, data }) => {
-    
+
     /**
      * Estado da data da última mensagem.
      */
@@ -19,11 +19,10 @@ export default ({ onClick, active, data }) => {
             const minutes = date.getMinutes()
             const hoursNormalized = hours < 10 ? `0${hours}` : hours
             const minutesNormalized = minutes < 10 ? `0${minutes}` : minutes
-            console.log(`${hoursNormalized}:${minutesNormalized}`);
             setTime(`${hoursNormalized}:${minutesNormalized}`)
         }
     }, [data])
- 
+
     return (
         <div onClick={onClick} className={`chat-list-item ${active ? "active" : ""}`}>
             <img className="chat-list-item-avatar" src={data.image} ></img>

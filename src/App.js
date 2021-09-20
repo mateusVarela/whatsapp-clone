@@ -31,10 +31,10 @@ export default () => {
   const [showNewContactChat, setShowNewContactChat] = useState(false)
 
   /**
-   * 
+   * Estado do usuário.
    */
   const [user, setUser] = useState(null)
-  
+
   /**
    * Função que verifica se existe algum chat ativo.
    */
@@ -47,9 +47,9 @@ export default () => {
     const chatLists = api.onChatList(user.id, setChatList)
     return chatLists
   }, [user])
-  
+
   /**
-   * 
+   * Função que cria novo usuário.
    */
   const handleLoginData = async (userInformation) => {
     const newUser = {
