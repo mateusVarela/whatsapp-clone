@@ -11,7 +11,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
 
-import onChatContent from "../../api"
 import api from "../../api";
 
 export default ({ user, data }) => {
@@ -20,6 +19,9 @@ export default ({ user, data }) => {
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
+  /**
+   * Serviço usado para reconhecimento de voz.
+   */
   const recognition = SpeechRecognition ? new SpeechRecognition() : false
 
   /**
@@ -32,14 +34,21 @@ export default ({ user, data }) => {
    */
   const [inputText, setInputText] = useState('')
 
-
+  /**
+   * Estado responsável por verificar se o mic esta ativo.
+   */
   const [listening, setListening] = useState(false)
-
 
   const [lists, setLits] = useState([])
 
+  /**
+   * Estado do usuário.
+   */
   const [users, setUsers] = useState([])
 
+  /**
+   * Função usada para quando entrar em um chat, mostrar as últimas mensagens.
+   */
   useEffect(() => {
     if (body.current.scrollHeight > body.current.offsetHeight) {
       body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
