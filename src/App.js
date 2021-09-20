@@ -15,8 +15,14 @@ import './App.css'
 
 export default () => {
 
+  /**
+   * 
+   */
   const [chatList, setChatList] = useState([])
 
+  /**
+   * 
+   */
   const [activeChat, setActiveChat] = useState({})
 
   /**
@@ -24,12 +30,27 @@ export default () => {
    */
   const [showNewContactChat, setShowNewContactChat] = useState(false)
 
-  const [user, setUser] = useState({
-    id: "pchhEiZcjxTmCVYbkTDIIrG8BsG3",
-    name: "Mateus Varela",
-    avatar: "https://graph.facebook.com/1743806615810318/picture"
-  })
+  /**
+   * 
+   */
+  const [user, setUser] = useState(null)
+  
+  /**
+   * Função que verifica se existe algum chat ativo.
+   */
+  useEffect(() => {
+    if (!user) return
 
+    /**
+     * Observa firebase e caso tenha alteração, cria um novo chat.
+     */
+    const chatLists = api.onChatList(user.id, setChatList)
+    return chatLists
+  }, [user])
+  
+  /**
+   * 
+   */
   const handleLoginData = async (userInformation) => {
     const newUser = {
       id: userInformation.uid,
@@ -40,8 +61,14 @@ export default () => {
     setUser(newUser)
   }
 
+  /**
+   * Verifica se já existe usuário logado, caso não tenha mostra tela de login. 
+   */
   if (!user) return (<Login onReceive={handleLoginData} />)
 
+  /**
+   * Mostra menu de nova conversa.
+   */
   const handleOpenNewChat = () => {
     setShowNewContactChat(true)
   }
@@ -89,6 +116,7 @@ export default () => {
           activeChat.chatId &&
           <ChatWindow
             user={user}
+            data={activeChat}
           />
         }
         {!activeChat.chatId &&

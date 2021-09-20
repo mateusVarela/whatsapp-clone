@@ -11,7 +11,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
 
-export default ({user}) => {
+import onChatContent from "../../api"
+import api from "../../api";
+
+export default ({user, data}) => {
 
   const body = useRef()
 
@@ -33,32 +36,25 @@ export default ({user}) => {
   const [listening, setListening] = useState(false)
 
 
-  const [lists, setLits] = useState([{author: 123, body: "ola mundo"}, {author: 1234, body: "Como estás?"}, 
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-  {author: 124, body: "Show!!"},
-])
+  const [lists, setLits] = useState([])
+
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     if(body.current.scrollHeight > body.current.offsetHeight) {
       body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
     }
   }, [lists])
+
+  /**
+   * Monitora envio de mensagens, caso tenha um novo envio sera mostrado aqui.
+   */
+  useEffect(() => {
+    
+    setLits([])
+    const onSubmit = api.onChatContent(data.chatId, setLits, setUsers)
+    return onSubmit
+  }, [data.chatId])
   
   /**
    * Função usada para mostrar emoji selecionado.
@@ -81,6 +77,9 @@ export default ({user}) => {
     setEmojiOpen(false)
   }
 
+  /**
+   * Função responsável por habilitar o microfone, escutar e transformar em texto.
+   */
   const handleMicClick = () => {
 
     if (recognition) {
@@ -101,14 +100,29 @@ export default ({user}) => {
     }
    }
 
-  const handleSendClick = () => {}
+  const handleSendClick = () => {
+    if (!inputText) return
+
+    api.sendMessage(data,  user.id, 'text', inputText, users)
+    setInputText("")
+    setEmojiOpen(false)
+  }
+
+  /**
+   * Envia a mensagem com a tecla enter. 
+   */
+  const handleInputKeyUp = (e) => {
+    if(e.keycode == 13) {
+      handleSendClick()
+    }
+  }
 
   return (
     <div className="chat-window">
       <div className="chat-window-header">
         <div className="chat-window-header-info">
-          <img className="chat-window-avatar" src="https://www.w3schools.com/howto/img_avatar2.png" />
-          <div className="chat-window-name">Mateus Varela</div>
+          <img className="chat-window-avatar" src={data.image} />
+          <div className="chat-window-name">{data.title}</div>
         </div>
 
         <div className="chat-window-buttons">
@@ -164,6 +178,7 @@ export default ({user}) => {
               placeholder="Digite uma mensagem"
               value={inputText}
               onChange={e=> setInputText(e.target.value)}
+              onKeyUp={handleInputKeyUp}
             />
         </div>
         <div className="right-icons">
@@ -174,7 +189,7 @@ export default ({user}) => {
           }
 
         {inputText &&         
-          <div onChange={handleSendClick} className="chat-window-button">
+          <div onClick={handleSendClick} className="chat-window-button">
             <SendIcon style={{color: "#919191"}}/>
           </div>
         }
